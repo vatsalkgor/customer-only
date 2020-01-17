@@ -1,0 +1,22 @@
+
+doctype html
+html
+  head
+    title Dashboard
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href="/css/bootstrap.min.css")
+    script(src="/js/jquery.min.js")
+    script(src="/js/popper.min.js")
+    script(src="/js/bootstrap.min.js")
+    link(rel="stylesheet" type="text/css" href="/css/guj_input.css")
+  body
+    include include/header
+    .container-fluid
+      .row
+        .col-md-4
+            block FORM
+        .col-md-8
+            block VIEW
+    script.
+        $(".loader").css('display','none')
+    block SCRIPT

@@ -1,0 +1,21 @@
+doctype html
+head
+  title Login
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(href='/css/bootstrap.min.css' rel='stylesheet')
+.container-fluid
+  .row
+    .col-sm-3.offset-md-4
+      br
+      br
+      h2 Login
+      if err 
+        .text-danger=err
+      form(method='post' action='Login')
+        .form-group
+          label(for='exampleInputEmail1') Username
+          input.form-control(type='text' name='username' placeholder='Enter Username')
+        .form-group
+          label(for='exampleInputPassword1') Password
+          input.form-control(type='password' name='password' placeholder='Password')
+        button.btn.btn-primary(type='submit') Submit

@@ -1,0 +1,54 @@
+extend ../template
+block FORM
+    h2 New Party
+    if msg
+        .text-danger=msg.desc
+    form(action="Party/Add", method="post")
+        .form-group
+            label.control-label Party Name
+            input.form-control.guj(required='' type='text' name='p_name')
+        .form-group
+            label.control-label Pending Amount
+            input.form-control.guj(required='' type='text' name='p_amount')
+        .row
+            .col-md-3
+                button#saveButton.btn.btn-primary Save
+            .col-md-3
+                button#saveButton.btn.btn-primary Show
+            .col-md-3
+                button#saveButton.btn.btn-primary Update
+            .col-md-3
+                button#saveButton.btn.btn-primary(type='reset') Cancel
+block VIEW
+    table.table.table-bordered.table-striped(style='width: 100%')
+        thead
+            th Name
+            th Pending Amount
+            th Edit
+            th Delete
+        tbody#tbody
+            tr
+                td.guj
+                td.guj
+                td
+                    button.btn.btn-primary(onclick="partyEdit(<?php echo $row['p_id']; ?>)") Edit
+                td
+                    button.btn.btn-secondary(onclick="partyDelete(<?php echo $row['p_id']; ?>)") Delete
+block SCRIPT
+    script.
+        $(document).ready(()=>{
+            $('form').on('submit',function(e){
+                e.preventDefault();
+                const data = $(this).serialize()
+                const url = $(this).attr('action');
+                const method = $(this).attr('method')
+                $.ajax({
+                    type:method,
+                    url,
+                    data,
+                    success:function(data){
+                        alert(data);
+                    }
+                })
+            })
+        })
