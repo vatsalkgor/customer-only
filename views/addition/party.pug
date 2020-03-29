@@ -1,8 +1,9 @@
 extend ../template
 block FORM
     h2 New Party
-    if msg
-        .text-danger=msg.desc
+    p= data
+    p.text-success#success
+    p.text-danger#error
     form(action="Party/Add", method="post")
         .form-group
             label.control-label Party Name
@@ -27,13 +28,15 @@ block VIEW
             th Edit
             th Delete
         tbody#tbody
-            tr
-                td.guj
-                td.guj
-                td
-                    button.btn.btn-primary(onclick="partyEdit(<?php echo $row['p_id']; ?>)") Edit
-                td
-                    button.btn.btn-secondary(onclick="partyDelete(<?php echo $row['p_id']; ?>)") Delete
+            if data
+                each val in data
+                    tr
+                        td.guj data.row.p_name
+                        td.guj data.row.p_pending_amount
+                        td
+                            button.btn.btn-primary(onclick="partyEdit("+data.row.p_id+")") Edit
+                        td
+                            button.btn.btn-secondary(onclick="partyDelete("+data.row.p_id+")") Delete
 block SCRIPT
     script.
         $(document).ready(()=>{
@@ -47,7 +50,21 @@ block SCRIPT
                     url,
                     data,
                     success:function(data){
-                        alert(data);
+                        if(data.success){
+                            $('#success').html(data.msg)
+                            let str;
+                            data.data.forEach((val)=>{
+                                str+='<tr>'+
+                                    '<td class=guj>'+ val.row.p_name +'</td>'+
+                                    '<td class=guj>'+val.row.p_pending_amount+'</td>'+
+                                    '<td><button class="btn btn-primary" onClick=partyEdit('+val.row.p_id+')>Edit</button>'+
+                                    '<td><button class="btn btn-secondary" onClick=partyDelete('+val.row.p_id+')>Edit</button>'+
+                                    '</tr>';
+                            })
+                            $("#tbody").append(str);
+                        }else{
+                            $("#error").html(data.msg)
+                        }
                     }
                 })
             })
